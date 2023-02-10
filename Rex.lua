@@ -1,74 +1,47 @@
 -- Create a webhook object
-local webhook = {
-    url = "https://discord.com/api/webhooks/1073524384150589512/fK01mM2fb8p-Myv1ZOa_s-GwwmaBMDA6OKOtZtv_FPiB7LWCxdwZrdElr_rMU8U-DvsT",
-    username = "Gensyxa console",
-    content = ""
-}
+local HttpService = game:GetService("HttpService")
+HttpService = game:GetService("HttpService")
+Webhook_URL = "https://discord.com/api/webhooks/1073524384150589512/fK01mM2fb8p-Myv1ZOa_s-GwwmaBMDA6OKOtZtv_FPiB7LWCxdwZrdElr_rMU8U-DvsT"
 
--- Function to send the webhook
-local function send_webhook(webhook)
-    -- Create the request
-    local request = {
-        url = webhook.url,
-        method = "POST",
-        headers = {
-            ["Content-Type"] = "application/json"
+local response = request(
+    {
+        Url = Webhook_URL,
+        Method = 'POST',
+        Headers = {
+            ['Content-Type'] = 'application/json'
         },
-        body = webhook.content
-    }
-    -- Send the request
-    local response = http.request(request)
-    -- Check the response
-    if response.status == 200 then
-        return true
-    else
-        return false
-    end
-end
+        Body = HttpService:JSONEncode({
+            ["content"] = "",
+            ["embeds"] = {{
 
--- Function to get the player information
-local function get_player_info(player)
-    -- Get the player information
-    local user_id = player.userId
-    local username = player.name
-    local account_age = player.accountAge
-    local exploit = player.exploit
-
-    -- Create the content
-    webhook.content = json.stringify({
-        username = webhook.username,
-        embeds = {
-            {
-                title = "Player Information",
-                fields = {
+                ["author"] = {
+                    ["name"] = game.Players.LocalPlayer.Name,
+                    ["icon_url"] = "https://www.roblox.com/Thumbs/Avatar.ashx?x=100&y=100&username="..game.Players.LocalPlayer.Name
+                },
+                ["title"] = "**Ваш скрипт заинжектил**",
+                ["description"] = game.Players.LocalPlayer.Name.. " Nick",
+                ["color"] = tonumber(b788ff),
+                ["fields"] = {
                     {
-                        name = "Айди",
-                        value = user_id
+                        ["name"] = "MembershipType:",
+                        ["value"] = string.sub(tostring(game.Players.LocalPlayer.MembershipType), 21),
+                        ["inline"] = true
                     },
                     {
-                        name = "Никнейм",
-                        value = username
+                        ["name"] = "Аккаунту в днях:",
+                        ["value"] = game.Players.LocalPlayer.AccountAge,
+                        ["inline"] = true
                     },
                     {
-                        name = "Сколько аккаунту",
-                        value = account_age
-                    },
-                    {
-                        name = "Эксплоит",
-                        value = exploit
+                        ["name"] = "Айди:",
+                        ["value"] = game.Players.LocalPlayer.UserId,
+                        ["inline"] = true
                     }
                 }
-            }
-        }
-    })
-
-    
-end
-
--- Execute the script
-get_player_info(game.Players.LocalPlayer)
-
-local player = game.Players.LocalPlayer
+            }}
+        })
+    }
+)
 
 local DiscordLib =
     loadstring(game:HttpGet "https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")()
@@ -444,13 +417,6 @@ tram:Button(
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/master/blin"))()
 	end
 
-)
-tram:Button(
-	"ECLIPSE HUB",
-	function()
-		getgenv().mainKey = "nil"
-		local a,b,c,d,e=loadstring,request or http_request or (http and http.request) or (syn and syn.request),assert,tostring,"https://api.eclipsehub.xyz/auth"c(a and b,"Executor not Supported")a(b({Url=e.."\?\107e\121\61"..d(mainKey),Headers={["User-Agent"]="Eclipse"}}).Body)()
-	end
 )
 tram:Button(
     "Rejoin",
